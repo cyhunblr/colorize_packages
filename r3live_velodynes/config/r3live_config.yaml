@@ -1,0 +1,61 @@
+Lidar_front_end:
+   lidar_type: 3   # 1 for Livox-avia, 3 for Ouster-OS1-64
+   N_SCANS: 16
+   using_raw_point: 1
+   point_step: 6
+
+r3live_common:
+   if_dump_log: 1                   # If recording ESIKF update log. [default = 0]
+   record_offline_map: 1            # If recording offline map. [default = 1]
+   pub_pt_minimum_views: 10      # Publish points which have been render up to "pub_pt_minimum_views" time. [default = 3]
+   minimum_pts_size: 0.01           # The minimum distance for every two points in Global map (unit in meter). [default = 0.01] 
+   image_downsample_ratio: 1        # The downsample ratio of the input image. [default = 1]
+   estimate_i2c_extrinsic: 0        # If enable estimate the extrinsic between camera and IMU. [default = 1] 
+   estimate_intrinsic: 0           # If enable estimate the online intrinsic calibration of the camera lens. [default = 1] 
+   maximum_vio_tracked_pts: 600     # The maximum points for tracking. [default = 600]
+   append_global_map_point_step: 2  # The point step of append point to global map. [default = 4]
+
+r3live_vio:
+   image_width: 1024
+   image_height: 768
+   camera_intrinsic:    [899.12543,   0.     , 506.62419,
+                           0.     , 901.06218, 400.48208,
+                           0.     ,   0.     ,   1.     ]
+   camera_dist_coeffs: [-0.167085, 0.070637, -0.000715, -0.001593, 0.000000]  #k1, k2, p1, p2, k3
+   # Fine extrinsic value. form camera-LiDAR calibration.
+
+   # camera_ext_t: [0.18229, 0.02288, -0.02487] #1st
+
+   camera_ext_t: [0.22690, 0.07684, -0.23565] #latest
+   camera_ext_R: [0.01837, -0.01814, 0.99967, -0.99978, -0.01023, 0.01819, 0.00989, -0.99978, -0.01833] #latest
+   # camera_ext_t: [0.17838, 0.01152, -0.01789] 
+
+   # camera_ext_R: [0.02503, -0.05286, 0.99829, -0.99960, -0.01430, 0.02431, 0.01299, -0.99850, -0.05320] #1st
+   # camera_ext_R: [0.01416, -0.07996, 0.99669, -0.99988, -0.00798, 0.01357, 0.00687, -0.99677, -0.08007]
+
+r3live_lio:        
+   lio_update_point_step: 1   # Point step used for LIO update.  
+   max_iteration: 10           # Maximum times of LIO esikf.
+   lidar_time_delay: 0        # The time-offset between LiDAR and IMU, provided by user. 
+   filter_size_corner: 0.03   
+   filter_size_surf: 0.03
+   filter_size_surf_z: 0.03
+   filter_size_map: 0.03
+
+# r3live_vio:
+#    image_width: 1024
+#    image_height: 768
+#    camera_intrinsic:    [892.67394,   0.     , 515.66526,
+#                            0.     , 894.60224, 406.5755 ,
+#                            0.     ,   0.     ,   1.     ]
+#    camera_dist_coeffs: [-0.176620, 0.091741, -0.001783, 0.001222, 0.000000]  #k1, k2, p1, p2, k3
+#    # Fine extrinsic value. form camera-LiDAR calibration.
+
+#    # camera_ext_t: [0.22690, 0.07684, -0.23565] #v1
+#    # camera_ext_R: [0.01837, -0.01814, 0.99967, -0.99978, -0.01023, 0.01819, 0.00989, -0.99978, -0.01833] #v1
+#    camera_ext_t: [0.18229, 0.02288, -0.02487]
+#    camera_ext_R: [0.02503, -0.05286, 0.99829, -0.99960, -0.01430, 0.02431, 0.01299, -0.99850, -0.05320]
+# imu
+   #  extrinsic_R: [0.999705, 0.0242515, -0.00117389,
+   #                   -0.0242376, 0.999649, 0.010673,
+   #                   0.00143231, -0.0106414, 0.999942] 

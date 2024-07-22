@@ -1,0 +1,65 @@
+common:
+    lid_topic:  "/velodyne_points"
+    imu_topic:  "/imu/data"
+    camera_topic: "/lucid/image_color"
+    time_sync_en: false         # ONLY turn on when external time synchronization is really not possible
+    time_offset_lidar_to_imu: 0.0 # Time offset between lidar and IMU calibrated by other algorithms, e.g. LI-Init (can be found in README).
+                                  # This param will take effect no matter what time_sync_en is. So if the time offset is not known exactly, please set as 0.0
+
+preprocess:
+    lidar_type: 2                # 1 for Livox serials LiDAR, 2 for Velodyne LiDAR, 3 for ouster LiDAR, 
+    scan_line: 16
+    scan_rate: 10                # only need to be set for velodyne, unit: Hz,
+    timestamp_unit: 2            # the unit of time/t field in the PointCloud2 rostopic: 0-second, 1-milisecond, 2-microsecond, 3-nanosecond.
+    blind: 2
+
+color_mapping:
+    K_camera: [899.12543,   0.     , 506.62419,
+                           0.     , 901.06218, 400.48208,
+                           0.     ,   0.     ,   1.     ]
+    D_camera: [-0.167085, 0.070637, -0.000715, -0.001593, 0.000000] 
+    time_offset_lidar_to_camera: 0.0                # ms
+    extrinsic_T: [0.22690, 0.07684, -0.23565]      # lidar to camera
+    extrinsic_R: [0.01837, -0.01814, 0.99967, -0.99978, -0.01023, 0.01819, 0.00989, -0.99978, -0.01833]
+mapping:
+    acc_cov: 0.1
+    gyr_cov: 0.1
+    b_acc_cov: 0.0001
+    b_gyr_cov: 0.0001
+    fov_degree:    360
+    det_range:     50.0
+    extrinsic_est_en:  false      # true: enable the online estimation of IMU-LiDAR extrinsic,
+    extrinsic_T: [ 0, 0, 0.0]
+    extrinsic_R: [0.999705, 0.0242515, -0.00117389,
+                      -0.0242376, 0.999649, 0.010673,
+                      0.00143231, -0.0106414, 0.999942] 
+
+# color_mapping:
+#     K_camera: [892.67394,   0.     , 515.66526,
+#                            0.     , 894.60224, 406.5755 ,
+#                            0.     ,   0.     ,   1.     ]
+#     D_camera: [-0.176620, 0.091741, -0.001783, 0.001222, 0.000000] 
+#     time_offset_lidar_to_camera: 0.0                # ms
+#     extrinsic_T: [0.18229, 0.02288, -0.02487]      # lidar to camera
+#     extrinsic_R: [0.02503, -0.05286, 0.99829, -0.99960, -0.01430, 0.02431, 0.01299, -0.99850, -0.05320]
+# mapping:
+#     acc_cov: 0.1
+#     gyr_cov: 0.1
+#     b_acc_cov: 0.0001
+#     b_gyr_cov: 0.0001
+#     fov_degree:    360
+#     det_range:     50.0
+#     extrinsic_est_en:  false      # true: enable the online estimation of IMU-LiDAR extrinsic,
+#     extrinsic_T: [ 0, 0, 0.0]
+#     extrinsic_R: [1,0,0,0,1,0,0,0,1] 
+
+publish:
+    path_en:  false
+    scan_publish_en:  true       # false: close all the point cloud output
+    dense_publish_en: true       # false: low down the points number in a global-frame point clouds scan.
+    scan_bodyframe_pub_en: true  # true: output the point cloud scans in IMU-body-frame
+
+pcd_save:
+    pcd_save_en: false
+    interval: -1                 # how many LiDAR frames saved in each pcd file; 
+                                 # -1 : all frames will be saved in ONE pcd file, may lead to memory crash when having too much frames.

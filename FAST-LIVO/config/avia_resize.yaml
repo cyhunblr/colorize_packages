@@ -1,0 +1,48 @@
+feature_extract_enable : 0
+point_filter_num : 4
+max_iteration : 10
+dense_map_enable : 1
+filter_size_surf : 0.15
+filter_size_map : 0.15
+cube_side_length : 20
+debug : 0
+grid_size : 20
+patch_size : 8
+img_enable : 1
+lidar_enable : 1
+outlier_threshold : 50 # 78 100 156
+ncc_en: false
+ncc_thre: 3.0
+img_point_cov : 100 # 1000
+laser_point_cov : 0.0001 # 0.001
+cam_fx: 899.12543
+cam_fy: 901.06218
+cam_cx: 506.62419
+cam_cy: 400.48208
+
+common:
+    lid_topic:  "/velodyne_points"
+    imu_topic:  "/imu/data"
+
+preprocess:
+    lidar_type: 2 # 1:Livox Avia LiDAR  2:VELO16  3:OUST64  4:XT32 
+    scan_line: 16 # 16  64  32
+    blind: 2.0 # blind x m disable
+
+mapping:
+    acc_cov_scale: 100
+    gyr_cov_scale: 10000
+    fov_degree:    360
+    extrinsic_T: [ 0, 0, 0 ]
+    extrinsic_R: [ 1, 0, 0,
+                   0, 1, 0,
+                   0, 0, 1]
+
+pcd_save:
+    pcd_save_en: false
+
+camera:
+    img_topic: /lucid/image_color
+    Rcl:  [0.01814, -0.99967, 0.01837, 0.01023, -0.01819, -0.99978, 0.99978, 0.01833, 0.00989]
+    Pcl: [-0.22690, -0.07684, 0.23565]
+    
